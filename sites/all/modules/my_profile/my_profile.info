@@ -1,0 +1,5 @@
+name = My Profile
+description = Displays a custom form to let users enter information for an account profile.
+package = My First Modules
+core = 7.x
+files[] = my_profile.module

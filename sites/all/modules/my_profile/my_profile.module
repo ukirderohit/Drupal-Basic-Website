@@ -1,0 +1,66 @@
+<?php
+
+function my_profile_menu() {
+	$items = array();
+	$items['my_profile'] = array(
+			'title' => 'Create Your Profile',
+			'type' => MENU_NORMAL_ITEM,
+			'access callback' => TRUE,
+			'page callback' => 'drupal_get_form',
+			'page arguments' => array('my_profile_form'),
+		);
+	$items['created'] = array(
+			'title' => 'Hooray!',
+			'type' => MENU_CALLBACK,
+			'access callback' => TRUE,
+			'page callback' => 'my_profile_created',
+		);
+	return $items;
+}
+
+function my_profile_form() {
+
+	$form = array();
+    $form['name'] = array(
+        '#title' => 'Name',
+        '#type' => 'textfield',
+        '#description' => t('Please enter your name.'),
+    );    
+    $form['music'] = array(
+        '#title' => 'Music Genre',
+        '#type' => 'textfield',
+        '#description' => t('Please enter your favorite genre of music.'),
+    );    
+    $form['age'] = array(
+        '#title' => 'Age',
+        '#type' => 'textfield',
+        '#description' => t('Please enter your age.'),
+    );    
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Go',
+    );
+
+    return $form;
+
+}
+
+function my_profile_form_submit($form, &$form_state) {
+	$user_name = $form_state['values']['name'];
+	$user_music = $form_state['values']['music'];
+	$user_age = $form_state['values']['age'];
+	$_SESSION['name'] = $user_name; 
+	$_SESSION['music'] = $user_music; 
+	$_SESSION['age'] = $user_age;  
+	$form_state['redirect'] = 'created';
+}
+
+function my_profile_created() {
+	$name = $_SESSION['name'];
+	$music = $_SESSION['music'];
+	$age = $_SESSION['age'];
+	return "You created a profile! Your name is $name, your favorite music is $music and your age is $age!";
+}
+
+
+
